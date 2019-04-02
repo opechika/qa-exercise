@@ -30,6 +30,16 @@ public class ValtechSteps extends ValtechCommon{
 	public void the_menu_dropdown_contains(String link) throws Throwable {
 		homepage.isLinkContainsInTheList(link);
 	}
+	
+	@When("I click on {string} link")
+	public void i_click_on_link(String link) throws Throwable {
+	    homepage.clickOnOneOfTheLinks(link);
+	}
+
+	@Then("{int} project cases are displayed")
+	public void project_cases_are_displayed(Integer num) throws Throwable {
+	    homepage.howManyProjectCaseIsDisplayed(num);
+	}
 
 
 }

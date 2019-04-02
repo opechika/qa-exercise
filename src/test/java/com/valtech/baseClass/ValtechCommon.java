@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -28,6 +29,9 @@ public class ValtechCommon
 	private static Select select;
 	private static Actions action;
 	private static WebDriverWait wait;
+
+	private WebElement cookie;
+	
 	
 	static
 	{
@@ -38,16 +42,54 @@ public class ValtechCommon
 	}
 	
 	
+	public void closeCookiePolicy() throws Exception
+	{
+		try {
+			cookie = getElementById("CybotCookiebotDialogBodyButtonAccept");
+			cookie.click();
+		}
+		catch (Exception e)
+		{
+			//move on gracefully
+		}
+	
+	}
+	
 	private static WebDriver initFirefox() throws Exception
 	{
 		return new FirefoxDriver();
 	}
 	
 	
+	public String getCurrentDisplayedUrl() throws Exception
+	{
+		return driver.getCurrentUrl();
+	}
+	
 	public static void waitForElementToDisplay(String elementText) throws Exception
 	{
 		wait = new WebDriverWait(driver, 20);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(elementText)));
+	}
+	
+	public static void waitForElementToBeClickable(String elementText) throws Exception
+	{
+		wait = new WebDriverWait(driver, 20);
+		wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(elementText)));
+	}
+	
+	public void moveToElement(WebElement element) throws Exception
+	{
+		action = new Actions(driver);
+		action.moveToElement(element);
+	}
+	
+	public void scrollDown() throws Exception
+	{
+		Thread.sleep(3000);
+		 JavascriptExecutor js = (JavascriptExecutor) driver;
+		 js.executeScript("window.scrollBy(0,1000)");
+		 
 	}
 	
 	private static WebDriver initChrome() throws Exception

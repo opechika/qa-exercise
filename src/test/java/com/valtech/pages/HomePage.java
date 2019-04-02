@@ -12,14 +12,10 @@ import com.valtech.baseClass.ValtechCommon;
 public class HomePage extends ValtechCommon{
 	
 	private WebElement menuIcon;
-	private WebElement cookie;
 	private List<WebElement> links;
+	private List<WebElement> cases;
 	
-	public void closeCookiePolicy() throws Exception
-	{
-		cookie = getElementById("CybotCookiebotDialogBodyButtonAccept");
-		cookie.click();
-	}
+	
 	
 	public void clickOnMenuIcon() throws Exception
 	{
@@ -34,7 +30,7 @@ public class HomePage extends ValtechCommon{
 	{
 		waitForElementToDisplay(".site-nav__menu__primary");
 		
-		links = getElementsByCssSelector(".site-nav__menu__primary li");
+		listOfLinks();
 		ArrayList<String> linkContainer = new ArrayList<String>();
 		
 		for(WebElement displayedLinks : links)
@@ -45,5 +41,44 @@ public class HomePage extends ValtechCommon{
 		
 		Assert.assertTrue(link + " is not part of the links displayed on the website", 
 													linkContainer.contains(link.toLowerCase()));
+	}
+	
+	public void clickOnOneOfTheLinks(String link) throws Exception
+	{
+		waitForElementToDisplay(".site-nav__menu__primary");
+		
+		listOfLinks();
+	
+		
+		for(WebElement displayedLinks : links)
+		{
+			String linkText = displayedLinks.getText();
+			
+			if(linkText.equalsIgnoreCase(link))
+			{
+				displayedLinks.click();
+			}
+		}
+	}
+
+	private void listOfLinks() throws Exception {
+		links = getElementsByCssSelector(".site-nav__menu__primary li");
+	}
+	
+	public void howManyProjectCaseIsDisplayed(int num) throws Exception
+	{
+		cases = getElementsByCssSelector("[href*='/work/'] h4");
+		
+		int noOfCases = cases.size();
+		
+		Assert.assertTrue(noOfCases + " is not equal to " + num, noOfCases == num);
+		
+		for(WebElement project : cases)
+		{
+			String projectText = project.getText();
+			if(!projectText.isEmpty())
+				System.out.println(projectText);
+		}
+		
 	}
 }
