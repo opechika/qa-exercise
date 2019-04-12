@@ -14,7 +14,7 @@ public class ContactUsPage extends ValtechCommon
 	public void printNumberOfValtechOffices() throws Exception
 	{
 		offices = getElementsByCssSelector(".list-item");
-		System.out.println(offices);
+		System.out.println(offices.size());
 	}
 	
 }
